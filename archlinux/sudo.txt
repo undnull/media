@@ -1,0 +1,6 @@
+# This file shall go to /etc/sudoers.d/sudo.txt
+# UNDONE: remove sudo timeout and ask for a password
+# each time something is ran via sudo.
+
+# Allow sudo access to whoever is in a sudo group
+%sudo ALL=(ALL:ALL) ALL

@@ -1,0 +1,17 @@
+base
+base-devel
+dhcpcd
+git
+grml-zsh-config
+grub
+linux
+linux-firmware
+linux-firmware-qlogic
+man-db
+man-pages
+ntfs-3g
+sudo
+terminus-font
+texinfo
+vim
+zsh
