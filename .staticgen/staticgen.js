@@ -40,7 +40,7 @@ const generate_html = function(dirname, outdir, recursive) {
     const path_html = path.join(".", outdir);
     
     // Ensure we have the output path for index.html
-    fs.mkdirSync(path_html, { recursive: true });
+    fs.mkdirSync(path_html);
     
     html.push(`<!doctype html>`);
     html.push(`<html>`);
