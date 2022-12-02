@@ -131,11 +131,11 @@ const generate_html = function(dirname, outdir, recursive) {
         html.push(`</tr>`);
     });
 
-    file_list.sort(function(a, b) { return a.f.name > b.f.name; });
+    file_list.sort(function(a, b) { return (a.p.ext > b.p.ext) && (a.f.name > b.f.name); });
     file_list.forEach(function(file) {
         html.push(`<tr>`);
         html.push(`<td><i class="${make_file_icon_class(file.p)}"></i></td>`);
-        html.push(`<td><a href="${config.file_prefix}/${path.posix.join(dirname, file.f.name)}">${file.f.name}</a></td>`);
+        html.push(`<td><a href="${config.file_prefix}/${path.posix.join(dirname, file.f.name)}?raw=true">${file.f.name}</a></td>`);
         html.push(`<td>${make_readable_size(file.s.size)}</td>`);
         html.push(`</tr>`);
     });
