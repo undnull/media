@@ -93,7 +93,7 @@ const generate_html = function(dirname, outdir, recursive) {
             const filep = path.posix.parse(file.name);
 
             if(file.isDirectory() && !config.ignore_dirs.includes(filep.name)) {
-                generate_html(path.posix.join(path_index, file.name), path.join(path_html, file.name), true);
+                generate_html(path.posix.join(path_index, file.name), path.join(outdir, file.name), true);
                 dir_list.push({ f: file, p: filep });
                 return;
             }
