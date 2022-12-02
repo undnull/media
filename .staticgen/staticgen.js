@@ -37,7 +37,7 @@ const generate_html = function(dirname, outdir, recursive) {
     
     const path_index_print = path.posix.join("/", dirname, "/");
     const path_index = path.join(".", dirname);
-    const path_html = path.join(".", outdir);
+    const path_html = path.join(".", config.output_dir, dirname);
     
     // Ensure we have the output path for index.html
     fs.mkdirSync(path_html);
@@ -93,7 +93,7 @@ const generate_html = function(dirname, outdir, recursive) {
             const filep = path.posix.parse(file.name);
 
             if(file.isDirectory() && !config.ignore_dirs.includes(filep.name)) {
-                generate_html(path.posix.join(path_index, file.name), path.join(outdir, file.name), true);
+                generate_html(path.posix.join(path_index, file.name), true);
                 dir_list.push({ f: file, p: filep });
                 return;
             }
@@ -147,4 +147,4 @@ const generate_html = function(dirname, outdir, recursive) {
     fs.writeFileSync(path.join(path_html, "index.html"), html.join(""));
 };
 
-generate_html("/", config.output_dir, false);
+generate_html("/", false);
