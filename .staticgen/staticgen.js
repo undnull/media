@@ -92,7 +92,7 @@ const generate_html = function(dirname, outdir, recursive) {
         fs.readdirSync(path_index, { withFileTypes: true }).forEach(function(file) {
             const filep = path.posix.parse(file.name);
 
-            if(file.isDirectory() && filep.name !== "html" && !config.ignore_dirs.includes(filep.name)) {
+            if(file.isDirectory() && filep.name !== config.output_dir && !config.ignore_dirs.includes(filep.name)) {
                 generate_html(path.posix.join(path_index, file.name), true);
                 dir_list.push({ f: file, p: filep });
                 return;
