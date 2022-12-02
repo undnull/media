@@ -1,6 +1,4 @@
 {
-    "output_dir": "html",
-    "file_prefix": "https://raw.githubusercontent.com/undnull/media/master/",
     "ignore_dirs": [ ".git", ".github", ".staticgen" ],
     "ignore_files": [ "CNAME", "index.html" ],
     "ignore_file_extensions": [ ],

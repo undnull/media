@@ -32,15 +32,11 @@ const make_readable_size = function(size) {
     return value.toFixed(2) + " " + units[unit];
 };
 
-const generate_html = function(dirname, outdir, recursive) {
+const generate_html = function(dirname, recursive) {
     let html = [];
     
     const path_index_print = path.posix.join("/", dirname, "/");
     const path_index = path.join(".", dirname);
-    const path_html = path.join(".", config.output_dir, dirname);
-    
-    // Ensure we have the output path for index.html
-    fs.mkdirSync(path_html);
     
     html.push(`<!doctype html>`);
     html.push(`<html>`);
@@ -144,7 +140,7 @@ const generate_html = function(dirname, outdir, recursive) {
     html.push(`</body>`);
     html.push(`</html>`);
 
-    fs.writeFileSync(path.join(path_html, "index.html"), html.join(""));
+    fs.writeFileSync(path.join(path_index, "index.html"), html.join(""));
 };
 
 generate_html("/", false);
