@@ -32,14 +32,21 @@ const make_readable_size = function(size) {
     return value.toFixed(2) + " " + units[unit];
 };
 
-const generate_html = function(dirname, recursive) {
+const generate_html = function(dirname, outdir, recursive) {
     let html = [];
-
+    
+    const path_index_print = path.posix.join("/", dirname, "/");
+    const path_index = path.join(".", dirname);
+    const path_html = path.join(".", config.output_dir, outdir);
+    
+    // Ensure we have the output path for index.html
+    fs.mkdirSync(path_html, { recursive: true });
+    
     html.push(`<!doctype html>`);
     html.push(`<html>`);
 
     html.push(`<head>`);
-    html.push(`<title>Index of ${path.posix.join("/", dirname, "/")}</title>`);
+    html.push(`<title>Index of ${path_index_print}</title>`);
     html.push(`<meta charset="utf-8"/>`);
     html.push(`<meta name="viewport" content="width=device-width, initial-scale=1.0"/>`);
     html.push(`<script src="https://kit.fontawesome.com/5ca9dc49d2.js" crossorigin="anonymous"></script>`);
@@ -52,7 +59,7 @@ const generate_html = function(dirname, recursive) {
     html.push(`</head>`);
 
     html.push(`<body>`);
-    html.push(`<h1>Index of ${path.posix.join("/", dirname, "/")}</h1>`);
+    html.push(`<h1>Index of ${path_index_print}</h1>`);
     html.push(`<hr/>`);
 
     html.push(`<table>`);
@@ -82,17 +89,17 @@ const generate_html = function(dirname, recursive) {
     let file_list = [];
 
     try {
-        fs.readdirSync(path.posix.join(".", dirname), { withFileTypes: true }).forEach(function(file) {
+        fs.readdirSync(path_index, { withFileTypes: true }).forEach(function(file) {
             const filep = path.posix.parse(file.name);
 
             if(file.isDirectory() && !config.ignore_dirs.includes(filep.name)) {
-                generate_html(path.posix.join(".", dirname, file.name), true);
+                generate_html(path.posix.join(path_index, file.name), path.join(path_html, file.name), true);
                 dir_list.push({ f: file, p: filep });
                 return;
             }
 
             if(file.isFile() && !config.ignore_files.includes(file.name) && !config.ignore_file_extensions.includes(filep.ext)) {
-                file_list.push({ f: file, p: filep, s: fs.statSync(path.posix.join(".", dirname, file.name)) });
+                file_list.push({ f: file, p: filep, s: fs.statSync(path.join(path_index, file.name)) });
                 return;
             }
         });
@@ -128,7 +135,7 @@ const generate_html = function(dirname, recursive) {
     file_list.forEach(function(file) {
         html.push(`<tr>`);
         html.push(`<td><i class="${make_file_icon_class(file.p)}"></i></td>`);
-        html.push(`<td><a href="${file.f.name}">${file.f.name}</a></td>`);
+        html.push(`<td><a href="${config.file_prefix}/${file.f.name}">${file.f.name}</a></td>`);
         html.push(`<td>${make_readable_size(file.s.size)}</td>`);
         html.push(`</tr>`);
     });
@@ -137,7 +144,7 @@ const generate_html = function(dirname, recursive) {
     html.push(`</body>`);
     html.push(`</html>`);
 
-    fs.writeFileSync(path.posix.join(".", dirname, "index.html"), html.join(""));
+    fs.writeFileSync(path.join(path_html, "index.html"), html.join(""));
 };
 
-generate_html("/", false);
+generate_html("/", config.output_dir, false);
